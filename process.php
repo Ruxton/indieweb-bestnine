@@ -6,7 +6,7 @@ $path = "/indieweb-bestnine";
 // $path = "";
 
 $siteUrl = $_POST['uri'];
-$siteKey = hash('sha256',trim($siteUrl));
+$siteKey = hash('sha256',trim($siteUrl.$year.$month));
 
 $year = intval($_POST['year']);
 $month = intval($_POST['month']);
