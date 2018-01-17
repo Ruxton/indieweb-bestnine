@@ -6,11 +6,12 @@ $path = "/indieweb-bestnine";
 // $path = "";
 
 $siteUrl = $_POST['uri'];
-$siteKey = hash('sha256',trim($siteUrl));
 
 $year = intval($_POST['year']);
 $month = intval($_POST['month']);
 $direction = 'next';
+
+$siteKey = hash('sha256',trim($siteUrl.$year.$month));
 
 $headerCheck = @get_headers($siteUrl);
 if(!$headerCheck || $headerCheck[0] == 'HTTP/1.1 404 Not Found') {

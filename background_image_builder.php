@@ -4,11 +4,12 @@ namespace Bestnine;
 require __DIR__ . '/vendor/autoload.php';
 
 $siteUrl = $argv[1];
-$siteKey = hash('sha256',trim($siteUrl));
 
 $year = $argv[2];
 $month = $argv[3];
 $direction = 'next';
+
+$siteKey = hash('sha256',trim($siteUrl.$year.$month));
 
 use Mf2;
 use phpFastCache\CacheManager;
