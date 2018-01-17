@@ -6,7 +6,7 @@
 		}
 	],
   "require": {
-      "mf2/mf2": "*",
-		"phpFastCache/phpFastCache": "^6.0"
+      "mf2/mf2": "dev-master",
+			"phpFastCache/phpFastCache": "*"
   }
 }

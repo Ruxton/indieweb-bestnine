@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "acd3a9b1d0a453638ec228d5715476d8",
-    "content-hash": "2a9beb5f32efe4c12ebd29eccc954888",
+    "content-hash": "a9ea0b30670820b37fb13576fc5d1634",
     "packages": [
         {
             "name": "mf2/mf2",
-            "version": "v0.3.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/php-mf2.git",
-                "reference": "dc0d90d4ee30864bcf37cd3a8fc8db94f9134cc4"
+                "reference": "23c5fa626d74cf6627d0ba6c06a9a81d2dac4011"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/dc0d90d4ee30864bcf37cd3a8fc8db94f9134cc4",
-                "reference": "dc0d90d4ee30864bcf37cd3a8fc8db94f9134cc4",
+                "url": "https://api.github.com/repos/indieweb/php-mf2/zipball/23c5fa626d74cf6627d0ba6c06a9a81d2dac4011",
+                "reference": "23c5fa626d74cf6627d0ba6c06a9a81d2dac4011",
                 "shasum": ""
             },
             "require": {
@@ -60,10 +59,10 @@
                 "semantic"
             ],
             "support": {
-                "source": "https://github.com/indieweb/php-mf2/tree/v0.3.2",
+                "source": "https://github.com/indieweb/php-mf2/tree/master",
                 "issues": "https://github.com/indieweb/php-mf2/issues"
             },
-            "time": "2017-05-27 15:27:47"
+            "time": "2018-01-12T17:37:36+00:00"
         },
         {
             "name": "phpfastcache/phpfastcache",
@@ -159,7 +158,7 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2017-12-15 22:11:25"
+            "time": "2017-12-15T22:11:25+00:00"
         },
         {
             "name": "psr/cache",
@@ -205,7 +204,7 @@
                 "psr",
                 "psr-6"
             ],
-            "time": "2016-08-06 20:24:11"
+            "time": "2016-08-06T20:24:11+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -253,13 +252,15 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-01-02 13:31:39"
+            "time": "2017-01-02T13:31:39+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "mf2/mf2": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
