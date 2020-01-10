@@ -33,10 +33,15 @@
 				<div class="field">
 					<label for="year">Year: </label>
 					<select name="year" id="year" class="ui form-control">
-						<option value="2018">2018</option>
-						<option value="2017" SELECTED>2017</option>
-						<option value="2016">2016</option>
-						<option value="2015">2015</option>
+						<?php
+							$current_year = date('Y');
+							$date_range = range($current_year, $current_year-5);
+							foreach($date_range as $date) {
+								$selected = ($date == $current_year-1) ? ' SELECTED' : '';
+								?>
+								<option value="<?php echo $date; ?>"<?php echo $selected;?>><?php echo $date; ?></option><?php
+							}
+						?>
 					</select>
 				</div>
 				<div class="field">
