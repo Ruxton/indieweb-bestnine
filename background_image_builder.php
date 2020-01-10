@@ -182,7 +182,24 @@ if(count($photos) < 1) {
 	foreach ($bestNinePhotos as $index => $srcPath)
 	{
 		list ($x, $y) = indexToCoords($index);
-		$tileImg = imagecreatefromjpeg($srcPath);
+
+		switch (exif_imagetype($srcPath)) {
+			case IMAGETYPE_JPEG :
+					$tileImg = imagecreatefromjpeg($srcPath);
+					break;
+
+			case IMAGETYPE_PNG :
+					$tileImg = imagecreatefrompng($srcPath);
+					break;
+
+			case IMAGETYPE_GIF :
+					$tileImg = imagecreatefromgif($srcPath);
+					break;
+
+			default:
+				$tileImg = imagecreatefromjpeg($srcPath);
+				break;
+		}
 
 	  imagecopyresampled($mapImage, $tileImg, $x, $y, 0, 0, 300, 300,900,900);
 	  imagedestroy($tileImg);
