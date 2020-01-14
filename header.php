@@ -1,2 +1,4 @@
-<h1 class="ui header"><img src="logo.png" alt="IndieWeb Best Nine" /></h1>
-<h2 class="ui small header">Get your best nine photos<br>on your Indieweb site!</h2>
+<h2 class="ui header center aligned icon">
+  <img class="ui icon" style="max-width: 80%;" src="/logo.png" alt="IndieWeb Best Nine" />
+  <div class="sub header">Get your best nine photos on your Indieweb site!</div>
+</h2>
