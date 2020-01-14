@@ -1,8 +1,5 @@
 <?php
 	include "config.php";
-	$host = $_SERVER['HTTP_HOST'];
-	$path = "/indieweb-bestnine";
-	// $path = "";
 
 	if(isset($_GET['key'])) {
 		$key = $_GET['key'];
