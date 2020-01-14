@@ -28,7 +28,7 @@
 			<div class="ui stacked segment">
 				<div class="field">
 					<label for="uri">URI: </label>
-					<input name="uri" id="uri" type="text" placeholder="Indieweb URL" autocorrect="off" autocapitalize="off">
+					<input name="uri" id="uri" type="url" placeholder="Indieweb URL" autocorrect="off" autocapitalize="off">
 				</div>
 				<div class="field">
 					<label for="year">Year: </label>
