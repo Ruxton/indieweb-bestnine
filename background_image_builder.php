@@ -43,6 +43,9 @@ function get_posts($mformat) {
 			$photos = $microformat['children'];
 		}
 	}
+	if(count($photos) == 0) {
+		$photos = $mformat['items'];
+	}
 
 	return $photos;
 }
@@ -107,6 +110,8 @@ function cache_fetch($url) {
 	} else {
 		$mf = $cachedResult->get();
 	}
+	echo "Microformat Data: \n";
+	echo var_dump($mf);
 	return $mf;
 }
 
@@ -139,7 +144,7 @@ function indexToCoords($index)
 
 list($posts,$next_page) = find_posts($siteUrl,true);
 if(!$next_page) {
-	echo "Site does not implement rel=\"next\" or rel=\"prev\"";
+	echo "Site does not implement rel=\"next\" or rel=\"prev\"\n";
 	exit;
 }
 $last_post = array_last($posts);
@@ -147,12 +152,16 @@ $dateParsed = date_parse($last_post["properties"]["published"][0]);
 
 while($dateParsed["year"] >= $year) {
 	list($newPosts,$next_page) = find_posts($next_page);
+	if($newPosts == null) { break; }
 	$last_post = array_last($newPosts);
 	$dateParsed = date_parse($last_post["properties"]["published"][0]);
 	$posts = array_merge($posts,$newPosts);
 }
 
+echo "Found ".count($posts)." posts.\n";
+
 $photos = filter_to_photos($posts);
+echo "Processing ".count($photos)." photos.";
 
 foreach($photos as $key => $photo) {
 	$dateParsed = date_parse($photo["properties"]["published"][0]);
@@ -165,9 +174,11 @@ foreach($photos as $key => $photo) {
 }
 
 if(count($photos) < 1) {
-	echo "Error, no photos found";
+	echo "Error, no photos found\n";
+	copy(__DIR__.DIRECTORY_SEPARATOR."noimage.png",__DIR__.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$siteKey.".jpg");
 	exit;
 } else {
+	echo "Sorting ".count($photos)." photos.";
 	$photocount = photo_interaction_count($photos);
 	uasort($photocount,'BestNine\like_sorter');
 	$bestNine = array_slice($photocount, 0, 9);
@@ -177,6 +188,8 @@ if(count($photos) < 1) {
 	foreach($bestNine as $url => $one) {
 		$bestNinePhotos[] = get_photo_url($url);
 	}
+
+	$bestNinePhotos = array_pad($bestNinePhotos,9,__DIR__.DIRECTORY_SEPARATOR."filler".DIRECTORY_SEPARATOR."unknown.png");
 
 	$mapImage = imagecreatetruecolor(900, 900);
 	foreach ($bestNinePhotos as $index => $srcPath)
@@ -201,8 +214,10 @@ if(count($photos) < 1) {
 				break;
 		}
 
-	  imagecopyresampled($mapImage, $tileImg, $x, $y, 0, 0, 300, 300,900,900);
-	  imagedestroy($tileImg);
+		$tileImg600 = imagescale($tileImg, 600);
+		imagedestroy($tileImg);
+
+	  imagecopyresampled($mapImage, $tileImg600, $x, $y, 0, 0, 300,300,600,600);
 	}
 
 	imagejpeg($mapImage,__DIR__.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$siteKey.".jpg");
