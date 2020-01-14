@@ -5,4 +5,7 @@
 	<a href="https://indieweb.org/like">like webaction</a><br/>
 </p>
 
-<p><a href="https://github.com/Ruxton/indieweb-bestnine">Source code available on github</a></p>
+<p>
+	<a href="https://ignite.digitaligntion.net/">Built by Ruxton.</a><br/>
+	<a href="https://github.com/Ruxton/indieweb-bestnine">Source code available on github</a>
+</p>
