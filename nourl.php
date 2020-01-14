@@ -1,8 +1,4 @@
-<?php
-	$host = $_SERVER['HTTP_HOST'];
-	$path = "/indieweb-bestnine";
-	// $path = "";
-?>
+<?php include "config.php"; ?>
 <html>
 <head>
 	<title>Indieweb BestNine - No URL!</title>

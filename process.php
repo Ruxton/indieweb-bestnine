@@ -1,9 +1,7 @@
 <?php
 namespace BestNine;
 
-$host = $_SERVER['HTTP_HOST'];
-$path = "/indieweb-bestnine";
-// $path = "";
+include "config.php";
 
 $siteUrl = $_POST['uri'];
 
