@@ -22,8 +22,7 @@
 
 <div class="ui middle aligned center aligned grid">
 	<div class="column">
-	  <h1 class="ui header">Indieweb BestNine</a></h1>
-		<h2 class="ui small header">Get your best nine photos<br>on your Indieweb site!</h2>
+		<?php include "header.php"; ?>
 		<div class="ui stacked segment">
 			<div class="ui error message">
 				<p>The website you are trying use is not contactable.</p>
