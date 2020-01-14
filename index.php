@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Indieweb BestNine</title>
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
 	<style type="text/css">
     body {
       background-color: #DADADA;
@@ -15,6 +15,7 @@
     .column {
       width: 450px !important;
     }
+
   </style>
 </head>
 <body>
