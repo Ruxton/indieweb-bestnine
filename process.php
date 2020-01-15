@@ -18,9 +18,9 @@ if(!$headerCheck || $headerCheck[0] == 'HTTP/1.1 404 Not Found') {
 else {
   $siteExists = true;
   if(!isset($siteUrl) || !$siteExists ) {
-  	header("Location: http://$host$path/nourl.php");
+  	header("Location: https://$host$path/nourl.php");
   } else {
-  	header("Location: http://$host$path/result.php?key=".$siteKey);
+  	header("Location: https://$host$path/result.php?key=".$siteKey);
   	header('Connection: close');
   	flush();
   	if (session_id()) session_write_close();

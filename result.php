@@ -4,7 +4,7 @@
 	if(isset($_GET['key'])) {
 		$key = $_GET['key'];
 	} else {
-		header("Location: http://".$host.$path."/");
+		header("Location: https://".$host.$path."/");
 		exit;
 	}
 ?><html>
@@ -49,11 +49,11 @@
 <script type="text/javascript">
 	function check_image() {
 		$.ajax({
-			url: 'http://<?php echo $host.$path; ?>/images/<?php echo $key ?>.jpg',
+			url: 'https://<?php echo $host.$path; ?>/images/<?php echo $key ?>.jpg',
 			type: 'HEAD',
 			success:
 				function(){
-						 $('#image-container').append('<img id="bestnine" width="450" src="http://<?php echo $host.$path; ?>/images/<?php echo $key ?>.jpg" />');
+						 $('#image-container').append('<img id="bestnine" width="450" src="https://<?php echo $host.$path; ?>/images/<?php echo $key ?>.jpg" />');
 						 $('#progress').remove();
 				},
 			error:
