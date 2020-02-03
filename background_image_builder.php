@@ -11,6 +11,8 @@ $direction = 'next';
 
 $siteKey = hash('sha256',trim($siteUrl.$year.$month));
 
+$disallowedCommentAuthors = [ 'https://swarmapp.com/', 'https://martymcgui.re/' ];
+
 use Mf2;
 use phpFastCache\CacheManager;
 
@@ -41,6 +43,9 @@ function get_posts($mformat) {
 	foreach ($mformat['items'] as $microformat) {
 		if($microformat['type'][0] == 'h-feed') {
 			$photos = $microformat['children'];
+		}
+		if($microformat['type'][0] == 'h-entry') {
+			$photos[] = $microformat;
 		}
 	}
 	if(count($photos) == 0) {
@@ -75,6 +80,7 @@ function get_photo_url($url) {
 }
 
 function photo_interaction_count($photos) {
+	global $disallowedCommentAuthors;
 	$return = array();
 	foreach($photos as $photo) {
 		$url = $photo["properties"]["url"][0];
@@ -87,8 +93,13 @@ function photo_interaction_count($photos) {
 			$likeCount = 0;
 		}
 
-		if(isset($mf["items"][0]["properties"]["reply"])) {
-			$replyCount = count($mf["items"][0]["properties"]["reply"]);
+		if(isset($mf["items"][0]["properties"]["comment"])) {
+                        $allowedReplies = array_filter(
+				$mf["items"][0]["properties"]["comment"],
+				function($comment) use (&$disallowedCommentAuthors) {
+					return(! in_array($comment['properties']['author'][0]['properties']['url']['0'], $disallowedCommentAuthors));
+				});
+			$replyCount = count($allowedReplies);
 		} else {
 			$replyCount = 0;
 		}
@@ -110,8 +121,8 @@ function cache_fetch($url) {
 	} else {
 		$mf = $cachedResult->get();
 	}
-	echo "Microformat Data: \n";
-	echo var_dump($mf);
+	// echo "Microformat Data: \n";
+	// echo var_dump($mf);
 	return $mf;
 }
 
@@ -135,10 +146,10 @@ function find_posts($url,$firstRun=false) {
 	return array(get_posts($mf),$next);
 }
 
-function indexToCoords($index)
+function indexToCoords($index, $tilePx)
 {
- $x = ($index % 3) * (300 + 0) + 0;
- $y = floor($index / 3) * (300 + 0) + 0;
+ $x = ($index % 3) * ($tilePx + 0) + 0;
+ $y = floor($index / 3) * ($tilePx + 0) + 0;
  return Array($x, $y);
 }
 
@@ -187,15 +198,24 @@ if(count($photos) < 1) {
 
 	foreach($bestNine as $url => $one) {
 		$bestNinePhotos[] = get_photo_url($url);
+		$str = ''; $sep = '';
+		foreach(array('likes' => 'like', 'replies' => 'reply') as $key => $singular) {
+			if($one[$key] > 0) {
+				$str .= $sep . $one[$key] . ' ' . (($one[$key] > 1) ? $key : $singular);
+				$sep = ', ';
+			}
+		}
+		print($url . (!empty($str) ? " ({$str})" : '') . "\n");
 	}
 
 	$bestNinePhotos = array_pad($bestNinePhotos,9,__DIR__.DIRECTORY_SEPARATOR."filler".DIRECTORY_SEPARATOR."unknown.png");
 
-	$mapImage = imagecreatetruecolor(900, 900);
+	$mapPx = 960;
+	$mapImage = imagecreatetruecolor($mapPx, $mapPx);
 	foreach ($bestNinePhotos as $index => $srcPath)
 	{
-		list ($x, $y) = indexToCoords($index);
-
+		list ($x, $y) = indexToCoords($index, $mapPx / 3);
+		$tileSizeMeta = getimagesize($srcPath);
 		switch (exif_imagetype($srcPath)) {
 			case IMAGETYPE_JPEG :
 					$tileImg = imagecreatefromjpeg($srcPath);
@@ -214,10 +234,13 @@ if(count($photos) < 1) {
 				break;
 		}
 
-		$tileImg600 = imagescale($tileImg, 600);
+		$tileWidth = $tileSizeMeta[0];
+		$tileHeight = $tileSizeMeta[1];
+		$minPx = ($tileWidth >= $tileHeight) ? $tileHeight : $tileWidth;
+		$tileXoff = ($tileWidth > $minPx) ? (($tileWidth - $minPx) / 2) : 0;
+		$tileYoff = ($tileHeight > $minPx) ? (($tileHeight - $minPx) / 2) : 0;
+		imagecopyresampled($mapImage, $tileImg, $x, $y, $tileXoff, $tileYoff, $mapPx / 3, $mapPx / 3, $minPx, $minPx);
 		imagedestroy($tileImg);
-
-	  imagecopyresampled($mapImage, $tileImg600, $x, $y, 0, 0, 300,300,600,600);
 	}
 
 	imagejpeg($mapImage,__DIR__.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$siteKey.".jpg");
