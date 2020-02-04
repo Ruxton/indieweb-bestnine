@@ -11,7 +11,9 @@ $direction = 'next';
 
 $siteKey = hash('sha256',trim($siteUrl.$year.$month));
 
-$disallowedCommentAuthors = [ 'https://swarmapp.com/', 'https://martymcgui.re/' ];
+$disallowedCommentAuthors = [
+	'https://swarmapp.com/'
+];
 
 use Mf2;
 use phpFastCache\CacheManager;
@@ -81,9 +83,11 @@ function get_photo_url($url) {
 
 function photo_interaction_count($photos) {
 	global $disallowedCommentAuthors;
+
 	$return = array();
 	foreach($photos as $photo) {
 		$url = $photo["properties"]["url"][0];
+		$authorUrl = $photo["properties"]["author"]["properties"]["url"];
 
 		$mf = cache_fetch($url);
 
@@ -94,11 +98,11 @@ function photo_interaction_count($photos) {
 		}
 
 		if(isset($mf["items"][0]["properties"]["comment"])) {
-                        $allowedReplies = array_filter(
+			$allowedReplies = array_filter(
 				$mf["items"][0]["properties"]["comment"],
 				function($comment) use (&$disallowedCommentAuthors) {
-					return(! in_array($comment['properties']['author'][0]['properties']['url']['0'], $disallowedCommentAuthors));
-				});
+					return(! in_array($comment['properties']['author'][0]['properties']['url']['0'], array_merge($disallowedCommentAuthors, array($authorUrl))));
+			});
 			$replyCount = count($allowedReplies);
 		} else {
 			$replyCount = 0;
@@ -152,6 +156,7 @@ function indexToCoords($index, $tilePx)
  $y = floor($index / 3) * ($tilePx + 0) + 0;
  return Array($x, $y);
 }
+
 
 list($posts,$next_page) = find_posts($siteUrl,true);
 if(!$next_page) {
