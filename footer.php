@@ -6,6 +6,6 @@
 </p>
 
 <p>
-	<a href="https://ignite.digitaligntion.net/">Built by Ruxton.</a><br/>
+	<a href="https://ignite.digitalignition.net/">Built by Ruxton.</a><br/>
 	<a href="https://github.com/Ruxton/indieweb-bestnine">Source code available on github</a>
 </p>
